@@ -1,4 +1,4 @@
-﻿@model List<Vidly.Models.Customer>  
+﻿@model List<Vidly.Models.Customer>
 
 @{
     ViewBag.Title = "Customers";
@@ -16,12 +16,21 @@
 else
 {
 
-    <ul>
-        @foreach (var customer in Model)
-        {
-           @ <li>@customer.Name</li>
-        }
-    </ul>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr> <th>Movies</th></tr>
+        </thead>
+        <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(@customer.Name, "CustomerDetails", "Customer", new { id = @customer.ID }, null)
+                
+                        </td>
+                    </tr>
+                }
+    </tbody>
 
-
+    </table>
 }
