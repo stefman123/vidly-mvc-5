@@ -11,25 +11,25 @@ namespace Vidly.Controllers
     {
         // GET: Customer
 
-        List<Customer> customers = new List<Customer>
+        List<Customer> _customers = new List<Customer>
             {
-                new Customer {ID = 1, Name = "Tom Jones"},
-                new Customer {ID = 2, Name = "Sharleen Gayle"}
+                new Customer {Id = 1, Name = "Tom Jones"},
+                new Customer {Id = 2, Name = "Sharleen Gayle"}
             };
 
         public ActionResult Index()
         {
           
 
-            return View(customers);
+            return View(_customers);
            
         }
 
 
 
-        public ActionResult CustomerDetails(int? ID)
+        public ActionResult CustomerDetails(int? id)
         {
-         var  details =  customers.Find(x => x.ID == ID);
+         var  details =  _customers.Find(x => x.Id == id);
             if (details == null) throw new ArgumentNullException(nameof(details));
             var customer = details; 
             return View(customer);
