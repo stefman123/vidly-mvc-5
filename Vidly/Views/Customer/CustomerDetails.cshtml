@@ -8,5 +8,15 @@
 
 <h2>@Model.Name</h2>
 
+<ul>
+    <li> Membership Type: @Model.Name</li>
+
+    @if (!string.IsNullOrEmpty(Model.BirthDate.ToString()))
+    {
+        <li>Birthdate: @($"{@Model.BirthDate:dd/MM/yyyy}")</li>
+    }
+</ul>
+
+
 
 
