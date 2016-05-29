@@ -207,15 +207,29 @@
     <Compile Include="Migrations\201605281422489_addMigrationBirthdate.Designer.cs">
       <DependentUpon>201605281422489_addMigrationBirthdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605281817104_addMovieGenresProp.cs" />
+    <Compile Include="Migrations\201605281817104_addMovieGenresProp.Designer.cs">
+      <DependentUpon>201605281817104_addMovieGenresProp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605281957296_addMovieGenresDefaults.cs" />
+    <Compile Include="Migrations\201605281957296_addMovieGenresDefaults.Designer.cs">
+      <DependentUpon>201605281957296_addMovieGenresDefaults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605290817502_addMovieColumnReleaseDate.cs" />
+    <Compile Include="Migrations\201605290817502_addMovieColumnReleaseDate.Designer.cs">
+      <DependentUpon>201605290817502_addMovieColumnReleaseDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MembershipType.cs" />
+    <Compile Include="fonts\MembershipType.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\MovieGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\MovieGenreViewModel.cs" />
     <Compile Include="ViewModel\RandomMovieViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +292,7 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Customer\CustomerDetails.cshtml" />
+    <Content Include="Views\Movies\MovieDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -314,6 +329,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605281422489_addMigrationBirthdate.resx">
       <DependentUpon>201605281422489_addMigrationBirthdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605281817104_addMovieGenresProp.resx">
+      <DependentUpon>201605281817104_addMovieGenresProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605281957296_addMovieGenresDefaults.resx">
+      <DependentUpon>201605281957296_addMovieGenresDefaults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290817502_addMovieColumnReleaseDate.resx">
+      <DependentUpon>201605290817502_addMovieColumnReleaseDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

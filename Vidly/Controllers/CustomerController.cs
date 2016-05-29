@@ -42,6 +42,7 @@ namespace Vidly.Controllers
             //var customers = _context.Customers.ToList();
 
             //Eager Loading - using "Include" allows you to load related objects e.g customer => MembershipType 
+
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
 
