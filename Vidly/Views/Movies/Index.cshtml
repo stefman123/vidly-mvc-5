@@ -22,7 +22,7 @@ else
             @foreach (var movie in Model)
                 {
                     <tr><td>@Html.ActionLink(@movie.Name, "MovieDetails", new {id =@movie.Id},null)  </td></tr>
-                    <tr><td>@movie.Id</td></tr>
+                    
             }
 
         </tbody>

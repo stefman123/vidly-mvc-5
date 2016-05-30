@@ -14,12 +14,17 @@ namespace Vidly.Models
         //data anotations
         [StringLength(255)]
         public string Name { get; set; }
+
         public bool IsSubscribedToNewsletter { get; set; }
+
         //Naviagation Property -from one type to another
         public MembershipType MembershipType { get; set; }
+
         //foreignKey - dont want to load the whole membership object
+        [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
 
+        [Display(Name = "Date Of Birth")]
         public DateTime? BirthDate { get; set; }
         
     }

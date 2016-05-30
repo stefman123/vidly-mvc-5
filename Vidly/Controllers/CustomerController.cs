@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using System.Data.Entity;
+using Vidly.ViewModel;
 
 namespace Vidly.Controllers
 {
@@ -48,6 +49,29 @@ namespace Vidly.Controllers
 
             return View(customers);
            
+        }
+
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes,
+                Customer = new Customer()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Customer customer)
+        {
+            //save in memory
+            _context.Customers.Add(customer);
+            //persist changes - generate sql statements at runtime in transaction statement
+            _context.SaveChanges();
+
+            return RedirectToAction("Index","Customer");
         }
 
 
