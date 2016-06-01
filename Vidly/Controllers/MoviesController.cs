@@ -69,7 +69,20 @@ namespace Vidly.Controllers
             return View(viewModel);
         }
 
-   
+
+        public ActionResult New()
+        {
+
+            var movie = new MovieFormViewModel
+            {
+                Movie = new Movie(),
+                MovieGenres = _context.MovieGenres.ToList()
+                
+            };
+
+            return View(movie);
+
+        }
 
 
         public ActionResult Edit(int id)
@@ -96,5 +109,26 @@ namespace Vidly.Controllers
             return Content(year + "/" + month);
         }
 
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+            {
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+              var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+
+            movieInDb.Name = movie.Name;
+            movieInDb.GenresId = movie.GenresId;
+            movieInDb.ReleaseDate = movie.ReleaseDate;
+            movieInDb.Stock = movie.Stock;
+                              
+            }
+
+            _context.SaveChanges();
+
+           return RedirectToAction("Index", "Movies");
+        }
     }
 }
