@@ -13,8 +13,10 @@ namespace Vidly.Models
             //cast the object instance to type customer
             var customer = (Customer) validationContext.ObjectInstance;
 
-            
-            if (customer.MembershipTypeId == 0 || customer.MembershipTypeId == 1)
+            //using static field to make code more readable instead of hardcoding number values(magic numbers) e.g
+            //if (customer.MembershipTypeId == 0 || customer.MembershipTypeId == 1)
+                if (customer.MembershipTypeId == MembershipType.Unknown
+                || customer.MembershipTypeId == MembershipType.PayAsYouGo)
                 //use this static field to return a successfull valid state
                 return ValidationResult.Success;
 
