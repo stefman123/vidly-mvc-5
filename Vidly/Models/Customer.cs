@@ -10,7 +10,7 @@ namespace Vidly.Models
     {   //Primary Key
         public int Id { get; set; }
         //Makes table not nullable (have to enter value)
-        [Required]
+        [Required(ErrorMessage = "Please enter customer's name.")]
         //data anotations
         [StringLength(255)]
         public string Name { get; set; }
@@ -25,6 +25,7 @@ namespace Vidly.Models
         public byte MembershipTypeId { get; set; }
 
         [Display(Name = "Date Of Birth")]
+        [Min18YearsIfAMember]
         public DateTime? BirthDate { get; set; }
         
     }
