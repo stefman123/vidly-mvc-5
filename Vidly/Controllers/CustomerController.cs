@@ -64,6 +64,8 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        //generating, encripting and validating a token  is done by the asp mvc framework 
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)

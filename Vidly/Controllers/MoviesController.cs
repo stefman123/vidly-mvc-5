@@ -76,12 +76,12 @@ namespace Vidly.Controllers
 
             var movie = new MovieFormViewModel
             {
-                Movie = new Movie(),
+                //Movie = new Movie(),
                 MovieGenres = movieGenreList
 
             };
 
-            return View("MoviewForm",movie);
+            return View("MovieForm",movie);
 
         }
 
@@ -90,13 +90,16 @@ namespace Vidly.Controllers
         {
            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
 
-            var viewModel = new MovieFormViewModel
+            if (movie == null)
+                return HttpNotFound();
+
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
+             
                 MovieGenres = _context.MovieGenres.ToList()
             };
 
-            return View("MoviewForm", viewModel);
+            return View("MovieForm", viewModel);
         }
 
 
@@ -119,8 +122,20 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModal = new MovieFormViewModel(movie)
+                {
+                    //Movie = new Movie(),
+                    MovieGenres = _context.MovieGenres.ToList()
+                };
+
+                return View("MovieForm", viewModal);
+            }
+
             if (movie.Id == 0)
             {
                 _context.Movies.Add(movie);
