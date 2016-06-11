@@ -9,31 +9,113 @@
 <h2>Customers</h2>
 
 
-@if (!Model.Any())
+@*@if (!Model.Any())
 {
     <p>No Customers</p>
 }
 
 else
-{
+{*@
 
-    <table class="table table-bordered table-hover">
+    <table id="customers" class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th>Customers</th>
-            <th>Discount Rate</th>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
-                @foreach (var customer in Model)
+        @*//rendering customers on the server*@
+        @*@foreach (var customer in Model)
                 {
                     <tr>
                         <td>@Html.ActionLink(@customer.Name, "Edit", "Customer", new {id = customer.Id}, null)</td>
                         <td>@customer.MembershipType.Name</td>
+                        <td>
+                            <button data-customer-id ="@customer.Id" class="btn-link js-delete">Delete</button>
+                        </td>
 
                     </tr>
-                }
-    </tbody>
+                }*@
+        </tbody>
 
     </table>
+@*}*@
+@section scripts
+{
+    <script>
+        $(document)
+            .ready(function() {
+
+                //render customers and tables from api 
+                $("#customers")
+                    .DataTable({
+                        ajax: {
+                            url: "/api/customers",
+                            dataSrc: ""
+                        },
+                        columns: [
+                        {
+                            data: "name",
+                            //this function will be called to render each row of the table
+                            //Parameters to control rendering: "data" means data: "name","type" is the type for the column, row is the actually object your redering e.g customer 
+                            render: function(data,type,customer) {
+                                return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                            }
+                        },
+                            {
+                                //membership name
+                                data: "membershipType.name"
+                            },
+                            {
+                                //use to render a data attribute for the body
+                                data: "id",
+                                render:function(data) {
+                                    return "<button class='btn-link js-delete' data-customer-id=" +
+                                        data +
+                                        ">Delete</button>";
+                                }
+                            }
+
+                    ]
+
+                });
+                
+
+                $("#customers")
+                    //".js-delete"  is use as a filter
+                    .on("click",".js-delete",
+                        function () {
+                            //get the refenerence to button from the original callback function
+                            var button = $(this);
+
+                            bootbox.confirm("Are you sure you want to delete this customer?",
+                                function(result) {
+                                    if (result) {
+
+                                        $.ajax({
+                                            url: "/api/customers/" + button.attr("data-customer-id"),
+                                            method: "DELETE",
+                                            success: function () {
+                                                //if i use "$(this)" here,i wont get access to the button as it is a callback function
+                                                // and can change within different callback functions
+
+                                                button.parents("tr").remove();
+                                            }
+                                        });
+                                    }
+                                });
+
+                            //old confirm box without bootstrap
+                            //if (confirm("Are you sure you want to delete this customer?")) {
+
+                            //};
+
+                        });
+
+
+            });
+
+    </script>
 }

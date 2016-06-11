@@ -5,36 +5,39 @@
 }
 
 <h2>Movies</h2>
-@*td>@Html.ActionLink(@customer.Name, "Edit", "Customer", new { id = customer.Id }, null)</td>*@
-@Html.ActionLink("New Movie","New","Movies" )
+@*td>@Html.ActionLink(@customerDto.Name, "Edit", "Customer", new { id = customerDtoDto.Id }, null)</td>*@
+<div>
+    <p> @Html.ActionLink("New Movie", "New", "Movies", new { @class = "btn-primary btn" })   </p>
+</div>
 
+<div>
 
-@if (Model.Count == 0)
-{
-    <P>No Movies are available</P>
-}
-else
-{
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Movies</th>
-                <th>Genre</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var movie in Model)
-                {
+    @if (Model.Count == 0)
+    {
+        <P>No Movies are available</P>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <thead>
                 <tr>
-                    <td>@Html.ActionLink(@movie.Name, "Edit","Movies", new { id = @movie.Id }, null)  </td>
-                    <td> @movie.Genres.Name  </td>
+                    <th>Movies</th>
+                    <th>Genre</th>
+
                 </tr>
-            }
+            </thead>
+            <tbody>
 
-        </tbody>
-
-        </table>
+                @foreach (var movie in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(@movie.Name, "Edit", "Movies", new { id = @movie.Id }, null)  </td>
+                        <td> @movie.Genres.Name  </td>
+                    </tr>
                 }
 
+            </tbody>
+
+        </table>
+    }
+</div>

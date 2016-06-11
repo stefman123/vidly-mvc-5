@@ -44,11 +44,11 @@ namespace Vidly.Controllers
 
             //Eager Loading - using "Include" allows you to load related objects e.g customer => MembershipType 
 
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //Rendering Customers now using ajax 
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //return View(customers);
+            return View();
 
-
-            return View(customers);
-           
         }
 
         public ActionResult New()
