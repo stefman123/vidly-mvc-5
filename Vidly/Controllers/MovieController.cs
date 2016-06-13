@@ -9,11 +9,11 @@ using Vidly.ViewModel;
 
 namespace Vidly.Controllers
 {
-    public class MoviesController : Controller
+    public class MovieController : Controller
     {
         private ApplicationDbContext _context;
 
-        public MoviesController()
+        public MovieController()
         {
             _context = new ApplicationDbContext();
         }
@@ -27,7 +27,7 @@ namespace Vidly.Controllers
 
 
 
-        [Route("Movies")]
+        //[Route("Movies")]
         public ActionResult Index()
         {
             //var movie = new List<Movie>
@@ -37,9 +37,10 @@ namespace Vidly.Controllers
 
             //};
 
-          var movies = _context.Movies.Include(g => g.Genres).ToList();
+          //var movies = _context.Movies.Include(g => g.Genres).ToList();
 
-            return View(movies);
+          //  return View(movies);
+            return View();
         }
 
         public ActionResult MovieDetails(int id)
@@ -103,16 +104,16 @@ namespace Vidly.Controllers
         }
 
 
-        public ActionResult Index(int? pageIndex, string sortBy)
-        {
-            if (!pageIndex.HasValue)
-                pageIndex = 1;
+        //public ActionResult Index(int? pageIndex, string sortBy)
+        //{
+        //    if (!pageIndex.HasValue)
+        //        pageIndex = 1;
 
-            if (String.IsNullOrWhiteSpace(sortBy))
-                sortBy = "Name";
+        //    if (String.IsNullOrWhiteSpace(sortBy))
+        //        sortBy = "Name";
 
-            return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex,sortBy));
-        }
+        //    return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex,sortBy));
+        //}
 
         [Route("movies/released/{year}/{month:regex(\\d{2}):range(1,12)}")]
         public ActionResult ByReleasedDate(int year, int month)

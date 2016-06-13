@@ -20,6 +20,8 @@ namespace Vidly.Dtos
         public byte GenresId { get; set; }
         [Required(ErrorMessage = "The field Number in Stocke must be between 1 and 20")]
 
+        public GenreDto Genres { get; set; }
+
         [Range(1, 20)]
         public int Stock { get; set; }
     }
