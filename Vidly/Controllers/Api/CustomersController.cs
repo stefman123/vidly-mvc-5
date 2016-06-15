@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Vidly.Dtos;
 using Vidly.Models;
+using System.Web.Security;
 
 namespace Vidly.Controllers.Api
 {
@@ -129,7 +130,7 @@ namespace Vidly.Controllers.Api
         //    customerInDb.MembershipTypeId = customer.MembershipTypeId;
         //    _context.SaveChanges();
         //}
-
+        [System.Web.Http.Authorize(Roles = RoleName.CanManageMovies)]
         [System.Web.Mvc.HttpPut]
         public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
@@ -155,8 +156,9 @@ namespace Vidly.Controllers.Api
 
             return Ok();
         }
-        
+
         // DELETE /api/customers/1
+        [System.Web.Http.Authorize(Roles = RoleName.CanManageMovies)]
         [System.Web.Http.HttpDelete]
         public IHttpActionResult DeleteCustomer(int id)
         {
