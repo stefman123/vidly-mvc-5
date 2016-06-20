@@ -30,15 +30,26 @@ namespace Vidly.Controllers.Api
         //}
 
         //Action using Automapper to decouple from domain class
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query = null)
         {
             ////original getcustomers
             //var  customerDtos =_context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
 
             //include membership types for the ajax call for datables
-            var customerDtos = _context.Customers.Include(c => c.MembershipType)
-                                     .ToList()
-                                     .Select(Mapper.Map<Customer, CustomerDto>);
+            //var customerDtos = _context.Customers.Include(c => c.MembershipType)
+            //                         .ToList()
+            //                         .Select(Mapper.Map<Customer, CustomerDto>);
+            
+
+            //This change is to filter customers for view Rentalform
+            var customersQuery = _context.Customers.Include(c => c.MembershipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+            customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+   
+            var customerDtos = customersQuery
+                          .ToList()
+                          .Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customerDtos);
         }

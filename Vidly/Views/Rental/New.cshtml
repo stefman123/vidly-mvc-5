@@ -1,0 +1,154 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "New Rental Form";
+
+}
+
+<h2>New Rental Form</h2>
+
+<form id="NewRental">
+    
+
+    <div class="form-group">
+        <label>Customer</label>
+        <div class="tt-container">
+            <input id="customer" data-rule-validCustomer="true"name="customer"  required type="text" value="" class="form-control" />
+        </div>
+    </div>
+    @*ZenCoding- come with WEB esstianls*@
+    @*div.form-group>label+input[type='text'].form-control*@
+
+    <div class="form-group">
+        <label>Movie</label>
+        <div class="tt-container">
+            <input id="movie" data-rule-validMovie="true" name="movie" type="text" value="" class="form-control" />
+        </div> 
+    </div>
+
+    <div class="row ">
+        <div class="col-md-4">
+            <ul id="movies" class="list-group"></ul>
+        </div>
+    </div>
+ 
+
+    <button class="btn btn-primary">Submit</button>
+
+</form>   
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            //view model
+            var vm = {
+                //intialize empty array - we can push object to it
+                movieIds:[]
+
+            };
+
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                //prefetch: '../data/films/post_1960.json',
+                remote: {
+                    url: '/api/customers?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#customer')
+                .typeahead({
+                    minLength: 3,
+                    highlight: true
+        }, {
+                name: 'customers',
+                display: 'name',
+                source: customers
+            }).on("typeahead:select", function(e,customer) {
+
+                    vm.customerId = customer.id;
+
+            });
+
+
+
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/Movies?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#movie')
+                .typeahead(null,
+                {
+                    name: 'movies',
+                    display: 'name',
+                    source: movies
+                })
+                .on("typeahead:select",
+                    function (e, movie) {
+                        //We can do this for small lists but for larger list better to use dataBinding frameworks e.g knockout,angular etc
+                        $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
+                        $("#movie").typeahead("val", "");
+                        
+                        vm.movieIds.push(movie.id);
+                    });
+
+            //custom validator
+            //$.validator.addMethod()
+            $.validator.addMethod("validCustomer",function() {
+                return vm.customerId && vm.customerId !== 0;
+            },"Please select a valid customer");
+
+            $.validator.addMethod("validMovie",
+                function() {
+                    return  vm.movieIds.count > 0;
+                },
+                "Please select a valid movie");
+
+          var validator =  $("#NewRental")
+                .validate({
+            
+                    submitHandler:function() {
+                        //stops the form from submiting normally and will have a normal html form
+                        //e.preventDefault();
+
+                        //instead use ajax
+                        $.ajax({
+                            url: "/api/Rental",
+                            method: "post",
+                            data: vm
+
+                        })
+                            //chain success and fail scenario
+                            .done(function () {
+                                toastr.success("Rentals successfully recored.");
+                                //clear form
+                                $("#customer").typeahead("val", "");
+                                $("#movie").typeahead("val", "");
+                                //to clear a list use empty
+                                $("#movies").empty();
+                                
+                                //reset view model
+                                vm = { movieIds: [] };
+                                // reset validation
+                                validator.resetForm();
+                            })
+                            .fail(function () {
+                                toastr.error("Rental unsuccessfull.");
+                            });
+                        //used instead of preventDefaults to prevent the form working normally
+                        return false;
+                    }
+                });
+
+
+        });
+
+    </script>
+}
